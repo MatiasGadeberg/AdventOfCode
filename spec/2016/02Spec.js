@@ -1,11 +1,18 @@
 describe('KeyFinder', function(){
     const KeyFinder = require('../../2016/02/KeyFinder');
+    const testCode = require('../../2016/02/input').testCode;
     var keyFinder
 
     beforeEach(function(){
         keyFinder = new KeyFinder;
     });
 
+    describe('getCode', function(){
+        it('should return an array containing the code digits when given a list of lists of sequence moves', function(){
+            expect(keyFinder.getCode(testCode)).toEqual([1,9,8,5]);
+        });
+    });
+    
     describe('getCodeKey', function(){
         it('given a starting key and a sequence of moves it should return the final key', function(){
             expect(keyFinder.getCodeKey(5,['U', 'L', 'L'])).toEqual(1);
@@ -84,6 +91,14 @@ describe('KeyFinder', function(){
             expect(keyFinder.getNewKeyFromDirection('L', 7)).toEqual(7);
         })
 
+    });
+
+    describe('getColumnAndIndex', function(){
+        it('should return a column and an index given the current key', function(){
+            expect(keyFinder.getColumnAndIndex(5)).toEqual([0, 0]);
+            expect(keyFinder.getColumnAndIndex(3)).toEqual([2, 1]);
+            expect(keyFinder.getColumnAndIndex('A')).toEqual([1,2]);
+        });
     });
 
     describe('getNewKeyMovingUp', function(){
