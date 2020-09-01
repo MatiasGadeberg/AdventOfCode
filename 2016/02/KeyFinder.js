@@ -2,6 +2,7 @@ class KeyFinder {
     constructor() {
         this.rows = [[1], [2, 3, 4], [5, 6, 7, 8, 9], ['A', 'B', 'C'], ['D']];
         this.columns = [[5], [2, 6, 'A'], [1, 3, 7, 'B', 'D'], [4, 8, 'C'], [9]];
+        this.validKeys = [1,2,3,4,5,6,7,8,9,'A','B','C','D'];
     }
  
     //function getCode: Given a list of list of directions, return a list containing the code combination
@@ -55,26 +56,19 @@ class KeyFinder {
         
     }
 
-    //Moving up down
-        //locate column key is in
-        //if index === 1 moving up return number
-        //if index === col.length moving down return number
-        //return col[i+1] if moving down, col[i-1] moving up
-    //Moving left right
-        //Locate row key is in
-        //if index === 1 moving left return number
-        //if index === row.length moving right return number
-        //return row[i-1] moving left, row[i+1] moving right
     
-        getColumnAndIndex(currentKey) {
+    getColumnAndIndex(currentKey) {
         var colIndex;
-        this.columns.forEach((el, idx) => {
-            if (el.includes(currentKey)){
-                colIndex = idx;
+        
+        for (let i = 0; i < this.columns.length; i++) {
+            
+            if (this.columns[i].includes(currentKey)) {
+                colIndex = i;
+                break
             }
-        });
+        }
 
-        if (!colIndex) {
+        if (!colIndex && colIndex !== 0) {
             return null;
         }
         
@@ -82,57 +76,104 @@ class KeyFinder {
 
         return [colIndex, index]
     }
+    
+    getRowAndIndex(currentKey) {
+        var rowIndex;
+        
+        for (let i = 0; i < this.rows.length; i++) {
+            
+            if (this.rows[i].includes(currentKey)) {
+                rowIndex = i;
+                break
+            }
+        }
+        
+        if (!rowIndex && rowIndex !== 0) {
+            return null;
+        }
+        
+        const index = this.rows[rowIndex].findIndex(el => el === currentKey);
+        
+        return [rowIndex, index]
+    }
+    
+    
 
     //function getNewKeyMovingUp/Down/Left/Right: Given current key move up/down/left/right, return new key
+
+    //Moving up down
+        //locate column key is in
+        //if index === 1 moving up return number
+        //if index === col.length moving down return number
+        //return col[i+1] if moving down, col[i-1] moving up
     getNewKeyMovingUp(currentKey) {
         var col, index;
 
-        if (!currentKey) {
+        if (!currentKey || !this.validKeys.includes(currentKey)) {
             return null;
         }
         
         [col, index] = this.getColumnAndIndex(currentKey);
 
-        if (currentKey > 3){
-            return currentKey - 3;
+        if (index === 0) {
+            return currentKey
         } else {
-            return currentKey;
+            return this.columns[col][index-1];
         }
+
     }
 
     getNewKeyMovingDown(currentKey) {
-        if (!currentKey || currentKey < 1 || currentKey > 9) {
+        var col, index;
+
+        if (!currentKey || !this.validKeys.includes(currentKey)) {
             return null;
         }
+        
+        [col, index] = this.getColumnAndIndex(currentKey);
 
-        if (currentKey < 7){
-            return currentKey + 3;
-        } else {
+        if (index === this.columns[col].length - 1) {
             return currentKey;
+        } else {
+            return this.columns[col][index+1];
         }
     }
+    
+    //Moving left right
+        //Locate row key is in
+        //if index === 1 moving left return number
+        //if index === row.length moving right return number
+        //return row[i-1] moving left, row[i+1] moving right
 
     getNewKeyMovingLeft(currentKey) {
-        if (!currentKey || currentKey < 1 || currentKey > 9) {
+        var row, index;
+        
+        if (!currentKey || !this.validKeys.includes(currentKey)) {
             return null;
         }
 
-        if ((currentKey-1)%3 !== 0) {
-            return currentKey - 1;
-        } else {
+        [row, index] = this.getRowAndIndex(currentKey);
+
+        if (index === 0) {
             return currentKey;
+        } else {
+            return this.rows[row][index - 1];
         }
     }
 
     getNewKeyMovingRight(currentKey) {
-        if (!currentKey || currentKey < 1 || currentKey > 9) {
+        var row, index;
+        
+        if (!currentKey || !this.validKeys.includes(currentKey)) {
             return null;
         }
 
-        if(currentKey%3 === 0) {
+        [row, index] = this.getRowAndIndex(currentKey);
+
+        if (index === this.rows[row].length - 1) {
             return currentKey;
         } else {
-            return currentKey + 1; 
+            return this.rows[row][index + 1];
         }
     }
 

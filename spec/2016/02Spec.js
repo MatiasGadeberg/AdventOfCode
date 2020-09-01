@@ -9,16 +9,16 @@ describe('KeyFinder', function(){
 
     describe('getCode', function(){
         it('should return an array containing the code digits when given a list of lists of sequence moves', function(){
-            expect(keyFinder.getCode(testCode)).toEqual([1,9,8,5]);
+            expect(keyFinder.getCode(testCode)).toEqual([5,'D','B',3]);
         });
     });
     
     describe('getCodeKey', function(){
         it('given a starting key and a sequence of moves it should return the final key', function(){
-            expect(keyFinder.getCodeKey(5,['U', 'L', 'L'])).toEqual(1);
-            expect(keyFinder.getCodeKey(1,['R', 'R', 'D', 'D', 'D'])).toEqual(9);
-            expect(keyFinder.getCodeKey(9,['L', 'U', 'R', 'D', 'L'])).toEqual(8);
-            expect(keyFinder.getCodeKey(8,['U', 'U', 'U', 'U', 'D'])).toEqual(5);
+            expect(keyFinder.getCodeKey(5,['U', 'L', 'L'])).toEqual(5);
+            expect(keyFinder.getCodeKey(5,['R', 'R', 'D', 'D', 'D'])).toEqual('D');
+            expect(keyFinder.getCodeKey('D',['L', 'U', 'R', 'D', 'L'])).toEqual('B');
+            expect(keyFinder.getCodeKey('B',['U', 'U', 'U', 'U', 'D'])).toEqual(3);
         })
     });
 
@@ -44,51 +44,51 @@ describe('KeyFinder', function(){
         });
 
         it('should return a number 3 smaller than input when given U as direction and current is not 1,2,3', function(){
-            expect(keyFinder.getNewKeyFromDirection('U', 4)).toEqual(1);
-            expect(keyFinder.getNewKeyFromDirection('U', 7)).toEqual(4);
-            expect(keyFinder.getNewKeyFromDirection('U', 9)).toEqual(6);
+            expect(keyFinder.getNewKeyFromDirection('U', 3)).toEqual(1);
+            expect(keyFinder.getNewKeyFromDirection('U', 8)).toEqual(4);
+            expect(keyFinder.getNewKeyFromDirection('U', 'D')).toEqual('B');
         });
 
         it('should return the input number if going up on 1,2 or 3', function(){
             expect(keyFinder.getNewKeyFromDirection('U', 1)).toEqual(1);
             expect(keyFinder.getNewKeyFromDirection('U', 2)).toEqual(2);
-            expect(keyFinder.getNewKeyFromDirection('U', 3)).toEqual(3);
+            expect(keyFinder.getNewKeyFromDirection('U', 4)).toEqual(4);
         });
 
-        it('should return a number 3 greater than the input if given D as direction and current is not 7, 8, 9', function(){
-            expect(keyFinder.getNewKeyFromDirection('D', 1)).toEqual(4);
-            expect(keyFinder.getNewKeyFromDirection('D', 4)).toEqual(7);
-            expect(keyFinder.getNewKeyFromDirection('D', 6)).toEqual(9);
+        it('should return the key below the input if given D as direction and current is not 5, A, D, C or 9', function(){
+            expect(keyFinder.getNewKeyFromDirection('D', 1)).toEqual(3);
+            expect(keyFinder.getNewKeyFromDirection('D', 4)).toEqual(8);
+            expect(keyFinder.getNewKeyFromDirection('D', 7)).toEqual('B');
         })
 
-        it('should return the input number if direction is D and number is 7, 8 or 9', function(){
-            expect(keyFinder.getNewKeyFromDirection('D', 7)).toEqual(7);
-            expect(keyFinder.getNewKeyFromDirection('D', 8)).toEqual(8);
+        it('should return the input number if direction is D and number is 5, A, D, C or 9', function(){
+            expect(keyFinder.getNewKeyFromDirection('D', 5)).toEqual(5);
+            expect(keyFinder.getNewKeyFromDirection('D', 'D')).toEqual('D');
             expect(keyFinder.getNewKeyFromDirection('D', 9)).toEqual(9);
         });
 
         it('should return a number 1 greater than input when given direction right and current is not 3, 6 or 9', function(){
-            expect(keyFinder.getNewKeyFromDirection('R', 1)).toEqual(2);
+            expect(keyFinder.getNewKeyFromDirection('R', 'A')).toEqual('B');
             expect(keyFinder.getNewKeyFromDirection('R', 5)).toEqual(6);
             expect(keyFinder.getNewKeyFromDirection('R', 7)).toEqual(8);
         });
 
-        it('should return the input number if going right from 3,6 or 9', function(){
-            expect(keyFinder.getNewKeyFromDirection('R', 3)).toEqual(3);
-            expect(keyFinder.getNewKeyFromDirection('R', 6)).toEqual(6);
-            expect(keyFinder.getNewKeyFromDirection('R', 9)).toEqual(9);
+        it('should return the input number if going right from 1, 4, 9, C and D', function(){
+            expect(keyFinder.getNewKeyFromDirection('R', 1)).toEqual(1);
+            expect(keyFinder.getNewKeyFromDirection('R', 4)).toEqual(4);
+            expect(keyFinder.getNewKeyFromDirection('R', 'C')).toEqual('C');
         });
 
         it('should return a number 1 less than input if going left from a number other than 1, 4 or 7', function(){
             expect(keyFinder.getNewKeyFromDirection('L', 3)).toEqual(2);
-            expect(keyFinder.getNewKeyFromDirection('L', 5)).toEqual(4);
-            expect(keyFinder.getNewKeyFromDirection('L', 9)).toEqual(8);
+            expect(keyFinder.getNewKeyFromDirection('L', 6)).toEqual(5);
+            expect(keyFinder.getNewKeyFromDirection('L', 'C')).toEqual('B');
         });
 
-        it('should return the input number when going left from 1, 4 or 7', function(){
+        it('should return the input number when going left from 1, 2, 5, A or D', function(){
             expect(keyFinder.getNewKeyFromDirection('L', 1)).toEqual(1);
-            expect(keyFinder.getNewKeyFromDirection('L', 4)).toEqual(4);
-            expect(keyFinder.getNewKeyFromDirection('L', 7)).toEqual(7);
+            expect(keyFinder.getNewKeyFromDirection('L', 2)).toEqual(2);
+            expect(keyFinder.getNewKeyFromDirection('L', 'A')).toEqual('A');
         })
 
     });
@@ -98,6 +98,14 @@ describe('KeyFinder', function(){
             expect(keyFinder.getColumnAndIndex(5)).toEqual([0, 0]);
             expect(keyFinder.getColumnAndIndex(3)).toEqual([2, 1]);
             expect(keyFinder.getColumnAndIndex('A')).toEqual([1,2]);
+        });
+    });
+    
+    describe('getRowAndIndex', function(){
+        it('should return a column and an index given the current key', function(){
+            expect(keyFinder.getRowAndIndex(5)).toEqual([2, 0]);
+            expect(keyFinder.getRowAndIndex(3)).toEqual([1, 1]);
+            expect(keyFinder.getRowAndIndex('A')).toEqual([3,0]);
         });
     });
 
@@ -112,14 +120,16 @@ describe('KeyFinder', function(){
             expect(keyFinder.getNewKeyMovingUp(15)).toBeNull(); 
         });
         
-        it('should return a number that is 3 lower than the input if the input is not 1,2,3', function(){
-            expect(keyFinder.getNewKeyMovingUp(4)).toEqual(1);
-            expect(keyFinder.getNewKeyMovingUp(8)).toEqual(5);
+        it('should return a number that is one above in the given column', function(){
+            expect(keyFinder.getNewKeyMovingUp('A')).toEqual(6);
+            expect(keyFinder.getNewKeyMovingUp('D')).toEqual('B');
+            expect(keyFinder.getNewKeyMovingUp(8)).toEqual(4);
         });
 
-        it('should return the input number if it is less than 4', function(){
+        it('should return the input number if it is the first in a column', function(){
             expect(keyFinder.getNewKeyMovingUp(1)).toEqual(1);
-            expect(keyFinder.getNewKeyMovingUp(3)).toEqual(3);
+            expect(keyFinder.getNewKeyMovingUp(4)).toEqual(4);
+            expect(keyFinder.getNewKeyMovingUp(9)).toEqual(9);
         });
 
     });
@@ -136,13 +146,13 @@ describe('KeyFinder', function(){
         });
 
         it('should return a number 3 less than the input, if the input is not 7,8,9', function(){
-            expect(keyFinder.getNewKeyMovingDown(4)).toEqual(7);
-            expect(keyFinder.getNewKeyMovingDown(3)).toEqual(6);
+            expect(keyFinder.getNewKeyMovingDown(4)).toEqual(8);
+            expect(keyFinder.getNewKeyMovingDown(3)).toEqual(7);
         });
 
         it('should return the input number if it is greater than 7', function(){
-            expect(keyFinder.getNewKeyMovingDown(7)).toEqual(7);
-            expect(keyFinder.getNewKeyMovingDown(9)).toEqual(9);
+            expect(keyFinder.getNewKeyMovingDown(5)).toEqual(5);
+            expect(keyFinder.getNewKeyMovingDown('C')).toEqual('C');
         });
     });
 
@@ -157,15 +167,16 @@ describe('KeyFinder', function(){
             expect(keyFinder.getNewKeyMovingLeft(14)).toBeNull();
         });
 
-        it('should return a number 1 lower then the input number if it is not 1,4,7', function(){
+        it('should return a key 1 lower in the row then the input key', function(){
             expect(keyFinder.getNewKeyMovingLeft(3)).toEqual(2);
             expect(keyFinder.getNewKeyMovingLeft(8)).toEqual(7);
+            expect(keyFinder.getNewKeyMovingLeft('C')).toEqual('B');
         });
 
         it('should return the input number if it is 1,4 or 7',function(){
             expect(keyFinder.getNewKeyMovingLeft(1)).toEqual(1);
-            expect(keyFinder.getNewKeyMovingLeft(4)).toEqual(4);
-            expect(keyFinder.getNewKeyMovingLeft(7)).toEqual(7);
+            expect(keyFinder.getNewKeyMovingLeft('A')).toEqual('A');
+            expect(keyFinder.getNewKeyMovingLeft(5)).toEqual(5);
         });
     });
 
@@ -179,16 +190,16 @@ describe('KeyFinder', function(){
             expect(keyFinder.getNewKeyMovingRight(29)).toBeNull();
         });
 
-        it('should return the input number if it is 3, 6 or 9', function(){
-            expect(keyFinder.getNewKeyMovingRight(3)).toEqual(3);
-            expect(keyFinder.getNewKeyMovingRight(6)).toEqual(6);
+        it('should return the input key if it is the right most in the row', function(){
+            expect(keyFinder.getNewKeyMovingRight(1)).toEqual(1);
             expect(keyFinder.getNewKeyMovingRight(9)).toEqual(9);
+            expect(keyFinder.getNewKeyMovingRight('C')).toEqual('C');
         });
 
-        it('should return a number 1 greater than the input if it is not 3, 6, 9', function(){
-            expect(keyFinder.getNewKeyMovingRight(1)).toEqual(2);
-            expect(keyFinder.getNewKeyMovingRight(5)).toEqual(6);
-            expect(keyFinder.getNewKeyMovingRight(7)).toEqual(8);
+        it('should return the key to the right of the input key when it is not at the end of the row', function(){
+            expect(keyFinder.getNewKeyMovingRight(3)).toEqual(4);
+            expect(keyFinder.getNewKeyMovingRight('A')).toEqual('B');
+            expect(keyFinder.getNewKeyMovingRight(6)).toEqual(7);
         })
     });
 
