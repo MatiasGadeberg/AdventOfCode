@@ -1,12 +1,9 @@
 var keyPadCode = require('./input').keyPadCode;
-var KeyFinder = require('./KeyFinder')
+var SantaSpy = require('../SantaSpy')
 
 
-keyFinder = new KeyFinder()
+const santaSpy = new SantaSpy()
 
-code = keyFinder.getCode(keyPadCode);
-
-console.log(code);
-
+santaSpy.getKeycode(keyPadCode);
 
 

@@ -53,10 +53,8 @@ class KeyFinder {
         } else if (direction === 'L') {
             return this.getNewKeyMovingLeft(currentKey);
         }
-        
     }
 
-    
     getColumnAndIndex(currentKey) {
         var colIndex;
         
@@ -97,15 +95,6 @@ class KeyFinder {
         return [rowIndex, index]
     }
     
-    
-
-    //function getNewKeyMovingUp/Down/Left/Right: Given current key move up/down/left/right, return new key
-
-    //Moving up down
-        //locate column key is in
-        //if index === 1 moving up return number
-        //if index === col.length moving down return number
-        //return col[i+1] if moving down, col[i-1] moving up
     getNewKeyMovingUp(currentKey) {
         var col, index;
 
@@ -139,12 +128,6 @@ class KeyFinder {
         }
     }
     
-    //Moving left right
-        //Locate row key is in
-        //if index === 1 moving left return number
-        //if index === row.length moving right return number
-        //return row[i-1] moving left, row[i+1] moving right
-
     getNewKeyMovingLeft(currentKey) {
         var row, index;
         
