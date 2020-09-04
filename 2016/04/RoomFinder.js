@@ -29,11 +29,6 @@ class RoomFinder {
         return decipheredWords.join(' ')
     }
         
-        // for each word in wordsInName
-            // realWord = dechipherWord(word, roomID)
-            // decipheredName.concat(' ', realWord)
-        // return decipheredName
-
     decipherWord(word, rotation) {
         var decipheredLetters = [];
         const letters = [...word];
@@ -68,8 +63,8 @@ class RoomFinder {
     isRealRoom(room) {
         var roomName, roomID, roomChecksum
         [roomName, roomID, roomChecksum] = room;
-        var sortedLetters = this.sortLettersInRoomName(roomName)
-        return this.isArrayEqual(sortedLetters, roomChecksum)
+        var sortedLetters = this.sortLettersInString(roomName)
+        return this.isArrayEqual(sortedLetters.splice(0,5), roomChecksum)
     }
     
     isArrayEqual(arr, string) {
@@ -81,13 +76,13 @@ class RoomFinder {
         return true
     }
     
-    sortLettersInRoomName(roomName) {
+    sortLettersInString(string) {
         var letters, count;
 
-        [letters, count] = this.letterCounter(roomName);
+        [letters, count] = this.letterCounter(string);
         var sortedLetters = [];
 
-        while (sortedLetters.length < 5 && letters.length > 0) {
+        while (letters.length > 0) {
             const maxIndex = this.indexOfMax(count)
             sortedLetters.push(letters[maxIndex])
             letters.splice(maxIndex,1)
@@ -115,14 +110,14 @@ class RoomFinder {
         return maxIndex;
     }
 
-    letterCounter(roomName) {
-        var cleanedName = this.stripDashes(roomName);
-        const uniqueLetters = this.findUniqueLettersInString(cleanedName);
+    letterCounter(string) {
+        var cleanedString = this.stripDashes(string);
+        const uniqueLetters = this.findUniqueLettersInString(cleanedString);
         uniqueLetters.sort();
         var letterCount = [];
         uniqueLetters.forEach(letter => {
             var count;
-            count = this.countLetterOccurenceInString(letter, cleanedName);
+            count = this.countLetterOccurenceInString(letter, cleanedString);
             letterCount.push(count);
         });
         return [uniqueLetters, letterCount]

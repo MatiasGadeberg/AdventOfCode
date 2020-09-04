@@ -58,9 +58,9 @@ describe('RoomFinder', function(){
 
     describe('sortLettersInRoomName', function(){
         it('should return the 5 most represented letters in a room name sorted by occurence and then alphabetticaly', function(){
-            expect(roomFinder.sortLettersInRoomName('not-a-real-room')).toEqual(['o','a','r','e','l'])
-            expect(roomFinder.sortLettersInRoomName('a-b-c-d-e-f-g-h')).toEqual(['a','b','c','d','e'])
-            expect(roomFinder.sortLettersInRoomName('qzmt-zixmtkozy-ivhz')).toEqual(['z','i','m','t','h'])
+            expect(roomFinder.sortLettersInString('not-a-real-room').slice(0,5)).toEqual(['o','a','r','e','l'])
+            expect(roomFinder.sortLettersInString('a-b-c-d-e-f-g-h').slice(0,5)).toEqual(['a','b','c','d','e'])
+            expect(roomFinder.sortLettersInString('qzmt-zixmtkozy-ivhz').slice(0,5)).toEqual(['z','i','m','t','h'])
         })
     });
 
