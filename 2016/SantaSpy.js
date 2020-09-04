@@ -1,12 +1,15 @@
-const KeyFinder = require("./02/KeyFinder");
-const RoomFinder = require("./04/RoomFinder");
 const CoordinateFinder = require("./01/CoordinateFinder");
+const KeyFinder = require("./02/KeyFinder");
+const TriangleCounter = require('./03/TriangleCounter');
+const RoomFinder = require("./04/RoomFinder");
+
 
 class SantaSpy {
     constructor() {
+        this.coordinateFinder = new CoordinateFinder();
         this.keyFinder = new KeyFinder();
         this.roomFinder = new RoomFinder();
-        this.coordinateFinder = new CoordinateFinder();
+        this.triangleCounter = new TriangleCounter();
     }
 
     findHQ(walkingPattern){
@@ -22,49 +25,14 @@ class SantaSpy {
     }
 
     findPossibleTriangles(triangleList) {
-        console.log(`There are ${this.countPossibleTriangles(triangleList)} possible triangles`);
+        console.log(`There are ${this.triangleCounter.countPossibleTriangles(triangleList)} possible triangles`);
     }
 
     findPossibleTrianglesInColumns(triangleList) {
-        const newtriangleList = this.convertInputTriangleList(triangleList);
-        console.log(`There are ${this.countPossibleTriangles(newtriangleList)} possible triangles counting in columns`);
+        const newList = this.triangleCounter.convertInputTriangleList(triangleList)
+        console.log(`There are ${this.triangleCounter.countPossibleTriangles(newList)} possible triangles counting in columns`);
     }
 
-    convertInputTriangleList(triangleList) {
-        var newTrianlgeList = [];
-        for (let i = 0; i < triangleList.length-2; i+=3) {
-            for (let j = 0; j < 3; j++) {
-                newTrianlgeList.push([triangleList[i][j], triangleList[i+1][j], triangleList[i+2][j]]);  
-            }   
-        }
-        return newTrianlgeList
-    }
-    
-    countPossibleTriangles(triangleList) {
-        var count = 0;
-        triangleList.forEach(triangle => {
-            if (this.isTrianglePossible(triangle)){
-                count ++
-            }
-        }, this);
-    
-        return count
-    }
-    
-    isTrianglePossible(triangle) {
-        var a, b, c
-        [a, b, c] = this.triSort(triangle);
-    
-        if (a + b > c) {
-            return true
-        }
-    
-        return false
-    }
-    
-    triSort(triangle) {
-        return triangle.sort((a,b) => a-b);
-    }
 }
 
 module.exports = SantaSpy;

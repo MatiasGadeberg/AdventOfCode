@@ -24,6 +24,7 @@ santaSpy.getKeycode(keyPadCode);
  ***************/
 const triangles = require('./03/input').triangles;
 
-santaSpy.findPossibleTriangles(triangles);
+
+// santaSpy.findPossibleTriangles(triangles);
 santaSpy.findPossibleTrianglesInColumns(triangles);
 
