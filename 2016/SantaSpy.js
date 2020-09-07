@@ -2,14 +2,18 @@ const CoordinateFinder = require("./01/CoordinateFinder");
 const KeyFinder = require("./02/KeyFinder");
 const TriangleCounter = require('./03/TriangleCounter');
 const RoomFinder = require("./04/RoomFinder");
+const PasswordCracker = require("./05/PasswordCracker");
+const CommunicationFixer = require("./06/CommunicationFixer");
 
 
 class SantaSpy {
     constructor() {
         this.coordinateFinder = new CoordinateFinder();
         this.keyFinder = new KeyFinder();
-        this.roomFinder = new RoomFinder();
         this.triangleCounter = new TriangleCounter();
+        this.roomFinder = new RoomFinder();
+        this.passwordCracker = new PasswordCracker();
+        this.communicationFixer = new CommunicationFixer();
     }
 
     findHQ(walkingPattern){
@@ -33,6 +37,18 @@ class SantaSpy {
         console.log(`There are ${this.triangleCounter.countPossibleTriangles(newList)} possible triangles counting in columns`);
     }
 
+    getSumOfRealRoomIDs(listOfRooms){
+        console.log(`Summing ID's of all real rooms gives ${this.roomFinder.sumRealRooms(listOfRooms)}`);
+    }
+
+    findRoomFromDescription(listOfRooms, roomDescription) {
+        console.log(`The ID for the room containing ${roomDescription} is ${this.roomFinder.findRoomFromDescription(listOfRooms, roomDescription)}`)
+    }
+
+    decryptPassword(doorID){
+        console.log(`Initiating password cracking sequence`);
+        this.passwordCracker.findPasswordAdvanced(doorID);
+    }
 }
 
 module.exports = SantaSpy;

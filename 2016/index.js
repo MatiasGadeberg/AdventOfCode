@@ -28,3 +28,16 @@ const triangles = require('./03/input').triangles;
 // santaSpy.findPossibleTriangles(triangles);
 santaSpy.findPossibleTrianglesInColumns(triangles);
 
+/***************
+ * Problem 4
+ ***************/
+const roomList = require('./04/input').roomList;
+
+santaSpy.getSumOfRealRoomIDs(roomList);
+santaSpy.findRoomFromDescription(roomList, 'northpole object storage');
+
+/***************
+ * Problem 5
+ ***************/
+
+ santaSpy.decryptPassword('cxdnnyjw')
