@@ -40,4 +40,11 @@ santaSpy.findRoomFromDescription(roomList, 'northpole object storage');
  * Problem 5
  ***************/
 
- santaSpy.decryptPassword('cxdnnyjw')
+santaSpy.decryptPassword('cxdnnyjw')
+
+/***************
+ * Problem 6
+ ***************/
+
+ 
+
